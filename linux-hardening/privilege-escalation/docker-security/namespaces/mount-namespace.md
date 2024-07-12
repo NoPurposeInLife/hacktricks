@@ -84,6 +84,12 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
+{% code overflow="wrap" %}
+```bash
+sudo findmnt
+```
+{% endcode %}
+
 ### Enter inside a Mount namespace
 
 ```bash
@@ -110,8 +116,22 @@ mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
 
+
+```bash
+sudo findmnt # List current set of mounts
+unshare --mount # run a shell in a new mount namespace
+mount --bind / /mnt/
+ls /mnt/bin/cp
+/mnt/bin/cp
+
+exit # exit the shell, and hence the mount namespace
+ls /mnt/bin/cp
+ls: cannot access '/mnt/bin/cp': No such file or directory
+```
+
 ## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+* [https://unix.stackexchange.com/a/464064/590776](https://unix.stackexchange.com/a/464064/590776)
 
 
 <details>
